@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 03:20:54 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/25 05:41:53 by mraspors         ###   ########.fr       */
+/*   Updated: 2022/12/25 05:45:14 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
-
-# define COIN "./img/coin.xpm"
-# define EXIT "./img/exit.xpm"
-# define ME1 "./img/me1.xpm"
-# define ME2 "./img/me2.xpm"
-# define PASS "./img/pass.xpm"
-# define WALL "./img/wall.xpm"
 
 typedef struct s_rgb {
 	int		r;

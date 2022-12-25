@@ -6,13 +6,13 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 05:29:00 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/25 05:37:09 by mraspors         ###   ########.fr       */
+/*   Updated: 2022/12/25 06:04:13 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
-void	check_files_existence(t_game *game, char *s)
+void	check_file_existence(t_game *game, char *s)
 {
 	int	fd;
 
@@ -25,10 +25,62 @@ void	check_files_existence(t_game *game, char *s)
 	}
 }
 
+void	set_rgb(t_game *game, char **rgb, int top_down)
+{
+	if(top_down == 1)
+	{
+		game->C.r = ft_atoi(rgb[0]);
+		game->C.g = ft_atoi(rgb[1]);
+		game->C.b = ft_atoi(rgb[2]);
+	}
+	else
+	{
+		game->F.r = ft_atoi(rgb[0]);
+		game->F.g = ft_atoi(rgb[1]);
+		game->F.b = ft_atoi(rgb[2]);
+	}
+}
+
+int		check_rgb_validity(t_game *game, char *s, int top_down)
+{
+	char	**rgb;
+	int		i;
+
+	i = 0;
+	rgb = ft_split(s, ',');
+	if (rgb == NULL)
+		return (1);
+	while (rgb[i] != NULL)
+		i++;
+	if (i != 3)
+		return (1);
+	i = 0;
+	while (rgb[i] != NULL)
+	{
+		if (ft_strlen(rgb[i]) > 3)
+			return (1);
+		i++;
+	}
+	set_rgb(game, rgb, top_down);
+	return (0);
+}
+
 void	check_map_config(t_game *game)
 {
-    check_files_existence(game, game->NO_texture);
-	check_files_existence(game, game->SO_texture);
-	check_files_existence(game, game->WE_texture);
-	check_files_existence(game, game->EA_texture);
+	int err;
+
+	err = 0;
+    check_file_existence(game, game->NO_texture);
+	check_file_existence(game, game->SO_texture);
+	check_file_existence(game, game->WE_texture);
+	check_file_existence(game, game->EA_texture);
+	err += check_rgb_validity(game, game->C_color, 1);
+	err += check_rgb_validity(game, game->F_color, 2);
+	if (err != 0)
+	{
+		printf("invalid rgb config\n");
+		free_if_er(game);
+	}
+	printf("C  | %d | %d | %d |\n", game->C.r, game->C.g, game->C.b);
+	printf("F  | %d | %d | %d |\n", game->F.r, game->F.g, game->F.b);
 }
