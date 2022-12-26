@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 05:58:11 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/25 03:43:03 by mraspors         ###   ########.fr       */
+/*   Updated: 2022/12/26 05:57:50 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	init_struct(t_game *game)
 {
+	game->i_pars = 0;
 	game->p_x = 0;
 	game->p_y = 0;
 	game->w = 0;
@@ -28,42 +29,38 @@ void	init_struct(t_game *game)
 	game->F_color = NULL;
 }
 
-void	free_strings(t_game *game)
+//if its one of map symbol (1, 0, N,S,E or Wreturns 1
+int		is_map_symbol(char c)
 {
-	if (game->NO_texture != NULL)
-		free (game->NO_texture);
-	if (game->SO_texture != NULL)
-		free (game->SO_texture);
-	if (game->WE_texture != NULL)
-		free (game->WE_texture);
-	if (game->EA_texture != NULL)
-		free (game->EA_texture);
-	if (game->C_color != NULL)
-		free (game->C_color);
-	if (game->F_color != NULL)
-		free (game->F_color);
+	if (c == '1' || c == '0' || c == 'N' || c == 'S' || 
+		c == 'E' || c == 'W' || ft_isspace(c) == 1)
+		return (1);
+	return (0);
 }
 
-void	free_split(char **s)
+void	is_symbol_safe(t_game *game, int i, int j)
 {
-	int	i;
+	int	err;
 
-	if (s == NULL)
-		return ;
-	i = 0;
-	while (s[i] != NULL)
+	err = 0;
+	if (i == 0)
+		err++;
+	else if (i == game->h - 1)
+		err++;
+	else if (j == 0)
+		err++;
+	else if (game->map[i][j + 1] == '\0')
+		err++;
+	else
 	{
-		free(s[i]);
-		i++;
+		err += ft_isspace(game->map[i - 1][j]);
+		err += ft_isspace(game->map[i + 1][j]);
+		err += ft_isspace(game->map[i][j + 1]);
+		err += ft_isspace(game->map[i][j - 1]);
 	}
-	free(s);
-}
-
-void	free_if_er(t_game *game)
-{
-	free_split(game->map);
-	free_split(game->map_data);
-	free_strings(game);
-	free(game);
-	exit(0);
+	if (err != 0)
+	{
+		printf("Error\nInvalid Map\n");
+		free_if_er(game);
+	}
 }

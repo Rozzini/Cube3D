@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Save_map_config.c                                  :+:      :+:    :+:   */
+/*   save_map_config.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 02:48:00 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/25 05:28:20 by mraspors         ###   ########.fr       */
+/*   Updated: 2022/12/26 05:18:18 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,18 @@ void	set_config(char *line, t_game *game, char *config)
 
 void		save_map_config(t_game *game)
 {
-    int i;
-
-    i = 0;
-    while(game->map_data[i] != NULL)
-    {
-        set_config(game->map_data[i], game, "NO");
-		set_config(game->map_data[i], game, "SO");
-		set_config(game->map_data[i], game, "WE");
-		set_config(game->map_data[i], game, "EA");
-		set_config(game->map_data[i], game, "C");
-		set_config(game->map_data[i], game, "F");
+	while(game->map_data[game->i_pars] != NULL)
+	{
+		set_config(game->map_data[game->i_pars], game, "NO");
+		set_config(game->map_data[game->i_pars], game, "SO");
+		set_config(game->map_data[game->i_pars], game, "WE");
+		set_config(game->map_data[game->i_pars], game, "EA");
+		set_config(game->map_data[game->i_pars], game, "C");
+		set_config(game->map_data[game->i_pars], game, "F");
+		game->i_pars++;
 		if (check_if_all_config_saved(game) == 1)
 			break;
-		i++;
-    }
+	}
 	if (check_if_all_config_saved(game) != 1)
 	{
 		printf("Invalid config\n");

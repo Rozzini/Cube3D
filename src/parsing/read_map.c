@@ -6,12 +6,28 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 02:31:05 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/25 05:30:53 by mraspors         ###   ########.fr       */
+/*   Updated: 2022/12/26 05:09:42 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
+void	skip_spaces_till_map_starts(t_game *game)
+{
+	int i;
+
+	while (game->map_data[game->i_pars] != NULL)
+	{
+		i = 0;
+		while (game->map_data[game->i_pars][i] != '\0')
+		{
+			if (ft_isspace(game->map_data[game->i_pars][i]) != 1)
+				return ;
+			i++;
+		}
+		game->i_pars++;
+	}
+}
 
 int	call_checkers(char *s, t_game *game)
 {
@@ -23,6 +39,8 @@ int	call_checkers(char *s, t_game *game)
 	game->map_data = ft_split(s, '\n');
     save_map_config(game);
 	check_map_config(game);
+	skip_spaces_till_map_starts(game);
+	save_map(game);
 	return (err);
 }
 

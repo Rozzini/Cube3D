@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 03:20:54 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/25 05:45:14 by mraspors         ###   ########.fr       */
+/*   Updated: 2022/12/26 05:47:32 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_rgb {
 }				t_rgb;
 
 typedef struct s_game {
+	int		i_pars;
 	int		p_x;
 	int		p_y;
 	int		w;
@@ -54,4 +55,9 @@ void	init_struct(t_game *game);
 void	free_if_er(t_game *game);
 void	save_map_config(t_game *game);
 void	check_map_config(t_game *game);
+void	save_map(t_game *game);
+int		is_map_symbol(char c);
+void	check_map_symbols_validity(t_game *game);
+void	check_map_validity(t_game *game);
+void	is_symbol_safe(t_game *game, int i, int j);
 #endif
