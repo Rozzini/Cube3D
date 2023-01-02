@@ -6,7 +6,7 @@
 #    By: mraspors <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/30 00:06:52 by mraspors          #+#    #+#              #
-#    Updated: 2022/12/26 05:23:11 by mraspors         ###   ########.fr        #
+#    Updated: 2023/01/03 02:16:58 by mraspors         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ mlx = ./mlx/libmlx.a
 
 FILES = ./src/parsing/parsing.c ./src/parsing/read_map.c ./src/parsing/save_map.c\
 		./src/parsing/save_map_config.c ./src/parsing/check_map_config.c\
-		./src/utils/utils.c ./src/utils/free.c\
+		./src/utils/utils.c ./src/utils/free.c ./src/parsing/map_fixer.c\
 		cube.c
 		
 OBJECTS = $(FILES:.c=.o)

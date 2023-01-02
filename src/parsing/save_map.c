@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 05:02:07 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/26 05:47:49 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/01/03 03:05:18 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,16 @@ void	save_map(t_game *game)
 	game->h = count_maps_hight(game);
 	game->map = malloc(game->h * sizeof(char *));
 	copy_data_into_map(game);
+	map_fixer(game);
 	check_map_symbols_validity(game);
+	printf("\n\n");
+	for (int i = 0; game->map[i] != NULL; i++)
+		printf("%s\n", game->map[i]);
+	printf("\n\n");
 	check_map_validity(game);
+	printf("\n\n");
+	for (int i = 0; game->map[i] != NULL; i++)
+		printf("%s\n", game->map[i]);
+	printf("\n\n");
 	printf("Map is valid\n");
 }

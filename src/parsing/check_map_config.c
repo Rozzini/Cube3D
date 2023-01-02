@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 05:29:00 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/25 06:04:13 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/01/03 01:52:30 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,4 @@ void	check_map_config(t_game *game)
 		printf("invalid rgb config\n");
 		free_if_er(game);
 	}
-	printf("C  | %d | %d | %d |\n", game->C.r, game->C.g, game->C.b);
-	printf("F  | %d | %d | %d |\n", game->F.r, game->F.g, game->F.b);
 }

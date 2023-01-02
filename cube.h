@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 03:20:54 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/26 05:47:32 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/01/03 02:15:53 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,5 @@ int		is_map_symbol(char c);
 void	check_map_symbols_validity(t_game *game);
 void	check_map_validity(t_game *game);
 void	is_symbol_safe(t_game *game, int i, int j);
+void	map_fixer(t_game *game);
 #endif
