@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 03:20:54 by mraspors          #+#    #+#             */
-/*   Updated: 2023/01/03 02:15:53 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/01/03 05:31:48 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
+#include <math.h>
 
 typedef struct s_rgb {
 	int		r;
