@@ -6,184 +6,210 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 03:21:19 by mraspors          #+#    #+#             */
-/*   Updated: 2023/01/03 06:05:14 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/01/23 20:45:17 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
-// Set the width and height of the minimap
-#define MINIMAP_WIDTH 200
-#define MINIMAP_HEIGHT 200
+void	print_data(t_game *game)
+{
+	printf("================RAW DATA=============\n");
+	for (int i = 0; game->map_data[i] != NULL; i++)
+		printf("%s\n", game->map_data[i]);
+	printf("======================================\n\n");
 
-// Set the width and height of the window that will display the minimap
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 400
+	printf("=========TEXTURES & COLORS==========\n");
+	printf("%s\n", game->NO_texture);
+	printf("%s\n", game->SO_texture);
+	printf("%s\n", game->WE_texture);
+	printf("%s\n", game->EA_texture);
+	printf("\n\n");
+	printf("%s\n", game->C_color);
+	printf("%s\n", game->F_color);
+	printf("======================================\n\n");
+}
 
-// Set the size of each cell in the minimap
-#define CELL_SIZE 20
-
-// Set the colors to use for the minimap
-#define WALL_COLOR 0x0ABC00 // black
-#define FLOOR_COLOR 0xFFFFFF // white
-#define PLAYER_COLOR 0x012345
-#define GRID_COLOR 0x000000
-// Set the number of rows and columns in the minimap
-#define NUM_ROWS 9
-#define NUM_COLS 29
-
-// Set the initial position of the player on the minimap
-#define INITIAL_PLAYER_ROW 1
-#define INITIAL_PLAYER_COL 1
-
-// Set the initial orientation of the player on the minimap
-#define INITIAL_PLAYER_ORIENTATION 'N' // north
-
-// Set the keys to use for moving the player on the minimap
-#define KEY_UP 13 // 'w' key
-#define KEY_LEFT 0 // left arrow key
-#define KEY_DOWN 1 // 's' key
-#define KEY_RIGHT 2 // right arrow key
-
-// Set the key to use for quitting the program
-#define KEY_QUIT 53 // 'ESC' key
-
-int player_row = INITIAL_PLAYER_ROW;
-int player_col = INITIAL_PLAYER_COL;
-char   player_orientation = INITIAL_PLAYER_ORIENTATION;
-	char **map;
-	 void *mlx;
-  void *window;
-
-void draw_minimap(void *mlx, void *window, char **map) {
-  int x, y, i, j;
-
-  // Clear the window
-  mlx_clear_window(mlx, window);
-
-  // Draw the minimap on the window
-  for (y = 0; y < NUM_ROWS; y++) {
-    for (x = 0; x < NUM_COLS; x++) {
-      // Set the color of the cell based on its type
-      if (map[y][x] == '1') {
-        for (i = 0; i < 20; i++) {
-          for (j = 0; j < 20; j++) {
-            mlx_pixel_put(mlx, window, x * CELL_SIZE + i, y * CELL_SIZE + j, WALL_COLOR);
-          }
-        }
-      } else {
-        for (i = 0; i < 20; i++) {
-          for (j = 0; j < 20; j++) {
-            mlx_pixel_put(mlx, window, x * CELL_SIZE + i, y * CELL_SIZE + j, FLOOR_COLOR);
-          }
-        }
-      }
-    }
+void move_player(t_game *game, int direction) {
+  if (direction == KEY_UP) 
+  {
+    if (game->map[(game->p_y - PLAYER_MOVE_DIST) / 20][game->p_x / 20] != '1')
+      game->p_y -= PLAYER_MOVE_DIST;
   }
-
-  // Draw the player on the minimap
-  for (i = 0; i < 20; i++) {
-    for (j = 0; j < 20; j++) {
-      mlx_pixel_put(mlx, window, player_col * CELL_SIZE + i, player_row * CELL_SIZE + j, PLAYER_COLOR);
-    }
+  else if (direction == KEY_DOWN)
+  {
+    if (game->p_y > 0 && game->map[(game->p_y + PLAYER_MOVE_DIST) / 20][game->p_x / 20] != '1')
+      game->p_y += PLAYER_MOVE_DIST;
   }
-
-    // Draw the grid for the minimap
-  for (x = 0; x < NUM_COLS; x++) {
-    for (y = 0; y < NUM_ROWS; y++) {
-      for (i = 0; i < 20; i++) {
-        mlx_pixel_put(mlx, window, x * CELL_SIZE, y * CELL_SIZE + i, GRID_COLOR);
-        mlx_pixel_put(mlx, window, x * CELL_SIZE + i, y * CELL_SIZE, GRID_COLOR);
-      }
-    }
+  else if (direction == KEY_LEFT)
+  {
+    if (game->p_y > 0 && game->map[game->p_y / 20][(game->p_x - PLAYER_MOVE_DIST) / 20] != '1')
+      game->p_x -= PLAYER_MOVE_DIST;
+  }
+  else if (direction == KEY_RIGHT)
+  {
+    if (game->p_y > 0 && game->map[game->p_y / 20][(game->p_x + PLAYER_MOVE_DIST) / 20] != '1')
+      game->p_x += PLAYER_MOVE_DIST;
   }
 }
 
-
-// Function to move the player on the minimap
-void move_player(char **map, int direction) {
-  // Update the player's position based on the direction
-  if (direction == KEY_UP) {
-    if (player_row > 0 && map[player_row - 1][player_col] != '1') {
-      player_row--;
-    }
-  } else if (direction == KEY_DOWN) {
-    if (player_row < NUM_ROWS - 1 && map[player_row + 1][player_col] != '1') {
-      player_row++;
-    }
-  } else if (direction == KEY_LEFT) {
-    if (player_col > 0 && map[player_row][player_col - 1] != '1') {
-      player_col--;
-    }
-  } else if (direction == KEY_RIGHT) {
-    if (player_col < NUM_COLS - 1 && map[player_row][player_col + 1] != '1') {
-      player_col++;
-    }
-  }
-}
-
-// Function to handle key press events
-int handle_key_press(int key, void *param) {
-  // Update the player's position based on the key pressed
-  param = NULL;
+int handle_key_press(int key, t_game *game) {
+  erase_player(game);
   if (key == KEY_UP) {
-    move_player(map, KEY_UP);
+    move_player(game, KEY_UP);
   } else if (key == KEY_DOWN) {
-    move_player(map, KEY_DOWN);
+    move_player(game, KEY_DOWN);
   } else if (key == KEY_LEFT) {
-    move_player(map, KEY_LEFT);
+    move_player(game, KEY_LEFT);
   } else if (key == KEY_RIGHT) {
-    move_player(map, KEY_RIGHT);
+    move_player(game, KEY_RIGHT);
   }
-  // Redraw the minimap
-  draw_minimap(mlx, window, map);
+ draw_player(game);
+ draw_grid(game);
   return 0;
 }
 
+void	check_file_name(int argc, char *s, t_game *game)
+{
+	char	*c;
 
-	  
+	if (argc < 2)
+	{
+		printf("Error\nAdd map\n");
+		free_if_er(game);
+	}
+	c = ft_strnstr(s, ".cub", ft_strlen(s));
+	if (ft_strcmp(c, ".cub") != 0)
+	{
+		printf("Error\nExtension Error\n");
+		free_if_er(game);
+	}
+}
+
+void	init_struct(t_game *game)
+{
+	game->i_pars = 0;
+	game->p_x = 0;
+	game->p_y = 0;
+	game->w = 0;
+	game->h = 0;
+	game->map = NULL;
+	game->map_data = NULL;
+	game->NO_texture = NULL;
+	game->SO_texture = NULL;
+	game->WE_texture = NULL;
+	game->EA_texture = NULL;
+	game->C_color = NULL;
+	game->F_color = NULL;
+}
+
+// Vec2 get_ray(double angle, double ray_angle) {
+// 	angle = 0;
+//     double sin_angle = sin(ray_angle);
+//     double cos_angle = cos(ray_angle);
+//     return (Vec2){cos_angle, sin_angle};
+// }
+
+// void move_player(t_game *game) {
+//     game->angle += 0.01;
+//     game->player.x += 1;
+// }
+
+
+// double get_wall_distance(Vec2 ray, Vec2 player, int *map_x, int *map_y, int *step_x, int *step_y) {
+//     *map_x = player.x / 64;
+//     *map_y = player.y / 64;
+//     double delta_dist_x = fabs(1 / ray.x);
+//     double delta_dist_y = fabs(1 / ray.y);
+//     double wall_dist;
+//     if (ray.x < 0) {
+//         *step_x = -1;
+//         wall_dist = (player.x - *map_x * 64) * delta_dist_x;
+//     } else {
+//         *step_x = 1;
+//         wall_dist = (*map_x * 64 + 64 - player.x) * delta_dist_x;
+//     }
+
+//     if (ray.y < 0) {
+//         *step_y = -1;
+//         wall_dist = (player.y - *map_y * 64) * delta_dist_y;
+//     } else {
+//         *step_y = 1;
+//         wall_dist = (*map_y * 64 + 64 - player.y) * delta_dist_y;
+//     }
+//     return wall_dist;
+// }
+
+
+// int get_intersection(Vec2 ray, int map[MAP_WIDTH][MAP_HEIGHT], int map_x, int map_y, int step_x, int step_y, double wall_dist, int distance, int *hit) {
+//     if (wall_dist < distance) {
+//         if (map[map_x][map_y] > 0)
+//             *hit = 1;
+//         if (ray.x < ray.y) {
+//             map_x += step_x;
+//             distance = wall_dist;
+//             wall_dist += fabs(1 / ray.x);
+//         } else {
+//             map_y += step_y;
+//             distance = wall_dist;
+//             wall_dist += fabs(1 / ray.y);
+//         }
+//     }
+//     return distance;
+// }
+
+
+
+// void ray_casting(t_game *game) {
+//     for (int x = 0; x < WIDTH; x++) {
+//         double ray_angle = (game->angle - game->fov / 2) + (game->fov * x / WIDTH);
+//         Vec2 ray = get_ray(game->angle, ray_angle);
+//         int map_x, map_y, step_x, step_y;
+//         double wall_dist = get_wall_distance(ray, game->player, &map_x, &map_y, &step_x, &step_y);
+//         int distance = 0;
+//         int hit = 0;
+//         while (!hit) {
+//             distance = get_intersection(ray, game->map, map_x, map_y, step_x, step_y, wall_dist, distance, &hit);
+//         }
+//         render_column(game, x, distance);
+//     }
+// }
+
+
+
+// void game_loop(t_game *game) {
+//     int key_press = 0;
+//     while (1) {
+//         move_player(game);
+//         ray_casting(game);
+//         mlx_loop_hook(game->mlx, game_loop, game);
+//         key_press = mlx_get_key(game->mlx, game->window);
+//         if(key_press == 53) {
+//           mlx_destroy_window(game->mlx, game->window);
+//           exit(0);
+//         }
+//     }
+// }
+
 int	main(int argc, char **argv)
 {
-	t_game	*game;
 
+	t_game	*game;
 	game = malloc(sizeof(t_game));
 	init_struct(game);
 	check_file_name(argc, argv[1], game);
 	read_check_map(argv[1], game);
-	map = game->map;
-  int x, y;
-  
+	print_data(game);
+	
+	game->mlx = mlx_init();
+	game->window = mlx_new_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Cube3D");
+    draw_minimap(game);
+    mlx_key_hook(game->window, handle_key_press, game);
+    mlx_loop(game->mlx);
+	// Vec2 player = {game->p_x, game->p_y};
+	// game->fov = M_PI / 3;
+	// game->angle = 0;
 
-  // Initialize the player's position and orientation on the minimap
-
-  
-
-
-  // Read the map from a file or elsewhere and store it in the 'map' array
-  // ...
-
-  // Initialize the miniLibX library
-  mlx = mlx_init();
-
-  // Create a window to display the minimap
-  window = mlx_new_window(mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Minimap");
-
-  // Set the event loop to handle key presses
-  mlx_key_hook(window, handle_key_press, NULL);
-
-  // Draw the minimap on the window
-  for (y = 0; y < NUM_ROWS; y++) {
-    for (x = 0; x < NUM_COLS; x++) {
-      // Set the color of the cell based on its type
-      if (map[y][x] == '1') {
-        mlx_pixel_put(mlx, window, x * CELL_SIZE, y * CELL_SIZE, WALL_COLOR);
-      } else {
-        mlx_pixel_put(mlx, window, x * CELL_SIZE, y * CELL_SIZE, FLOOR_COLOR);
-      }
-    }
-  }
-  // Display the window
-  mlx_loop(mlx);
-
-  return 0;
+    // game_loop(&game);
+    return 0;
 }

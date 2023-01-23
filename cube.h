@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 03:20:54 by mraspors          #+#    #+#             */
-/*   Updated: 2023/01/03 05:31:48 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/01/23 20:44:02 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,58 @@
 
 # include "./mlx/mlx.h"
 # include "./libft/libft.h"
-# include <stdio.h>
-# include <unistd.h>
 # include <fcntl.h>
-# include <stdlib.h>
-#include <math.h>
+# include <string.h>
+# include <stdio.h>
+# include <math.h>
+# include <stdbool.h>
+# include <unistd.h>
+
+#define MINIMAP_WIDTH 200
+#define MINIMAP_HEIGHT 200
+
+#define WINDOW_WIDTH 640
+#define WINDOW_HEIGHT 480
+
+#define CELL_SIZE 20
+
+#define PLAYER_MOVE_DIST 5
+
+#define WALL_COLOR 0x0ABC00 // black
+#define FLOOR_COLOR 0xFFFFFF // white
+#define PLAYER_COLOR 0x012345
+#define GRID_COLOR 0x000000
+
+#define MAP_HEIGHT 9
+#define MAP_WIDTH 29
+
+#define INITIAL_PLAYER_ROW 1
+#define INITIAL_PLAYER_COL 1
+
+#define INITIAL_PLAYER_ORIENTATION 'N' // north
+
+#define KEY_UP 13 // 'w' key
+#define KEY_LEFT 0 // 'a' key
+#define KEY_DOWN 1 // 's' key
+#define KEY_RIGHT 2 // 'd' key
+#define KEY_QUIT 53 // 'ESC' key
+
+#define WIDTH 640
+#define HEIGHT 480
+#define FOV 60.0
+
+typedef struct {
+  double x;
+  double y;
+  double angle;
+  double fov;
+} Player;
+
+typedef struct {
+  double x;
+  double y;
+} Vec2;
+
 
 typedef struct s_rgb {
 	int		r;
@@ -28,9 +75,13 @@ typedef struct s_rgb {
 }				t_rgb;
 
 typedef struct s_game {
+	Vec2	player;
+	double	angle;
+	double	fov;
 	int		i_pars;
 	int		p_x;
 	int		p_y;
+	char	p_pos;
 	int		w;
 	int		h;
 	char	*NO_texture;
@@ -45,21 +96,27 @@ typedef struct s_game {
 	t_rgb	F;
 	void	*img;
 	void	*mlx;
-	void	*mlx_win;
+	void	*window;
 }				t_game;
 
-void	check_file_name(int argc, char *s, t_game *game);
-int		call_checkers(char *s, t_game *map);
-int		read_map(char *file, t_game *game);
+//===================Parsing=====================
 void	read_check_map(char *s, t_game *game);
-void	init_struct(t_game *game);
-void	free_if_er(t_game *game);
 void	save_map_config(t_game *game);
 void	check_map_config(t_game *game);
 void	save_map(t_game *game);
-int		is_map_symbol(char c);
+void	map_fixer(t_game *game);
 void	check_map_symbols_validity(t_game *game);
 void	check_map_validity(t_game *game);
+int		is_map_symbol(char c);
 void	is_symbol_safe(t_game *game, int i, int j);
-void	map_fixer(t_game *game);
+void	find_player(t_game *game);
+//================================================
+
+
+void	draw_minimap(t_game *game);
+void	draw_grid(t_game *game);
+void	draw_player(t_game *game);
+void	erase_player(t_game *game);
+
+void	free_if_er(t_game *game);
 #endif

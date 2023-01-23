@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_map.c                                         :+:      :+:    :+:   */
+/*   read_check_map.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 02:31:05 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/26 05:09:42 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/01/11 07:14:19 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ int	read_map(char *file, t_game *game)
 	{
 		s = ft_strjoin_gnl(s, temp);
 		temp = get_next_line(fd_error);
+		if (ft_strlen(temp) == 1 && temp[0] == '\n')
+		{
+			free(temp);
+			temp = ft_strdup(" \n");
+		}
 	}
 	free(temp);
 	fd_error = call_checkers(s, game);
@@ -78,4 +83,5 @@ void	read_check_map(char *s, t_game *game)
 		ft_printf("Error\nMap Error\n");
 		free_if_er(game);
 	}
+	find_player(game);
 }

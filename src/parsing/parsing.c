@@ -6,26 +6,41 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 04:10:22 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/26 05:55:47 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/01/06 06:02:10 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
 
-void	check_file_name(int argc, char *s, t_game *game)
+void	find_player(t_game *game)
 {
-	char	*c;
+	int	i;
+	int	j;
+	int c;
 
-	if (argc < 2)
+	i = 0;
+	c = 0;
+	while (i < game->h)
 	{
-		printf("Error\nAdd map\n");
-		free_if_er(game);
-	}
-	c = ft_strnstr(s, ".cub", ft_strlen(s));
-	if (ft_strcmp(c, ".cub") != 0)
-	{
-		printf("Error\nExtension Error\n");
-		free_if_er(game);
+		j = 0;
+		while (j < game->w)
+		{
+			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' || 
+				game->map[i][j] == 'W' || game->map[i][j] == 'E')
+			{
+				if (c != 0)
+				{
+					printf("Error\nMore than 1 player possition\n");
+					free_if_er(game);
+				}
+				game->p_x = (j * 20) + 10;
+				game->p_y = (i * 20) + 10;
+				game->p_pos = game->map[i][j];
+				c++;
+			}
+			j++;
+		}
+		i++;
 	}
 }
 
@@ -68,4 +83,5 @@ void	check_map_validity(t_game *game)
 		}
 		i++;
 	}
+	game->h = i;
 }

@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 05:02:07 by mraspors          #+#    #+#             */
-/*   Updated: 2023/01/03 03:05:18 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/01/06 04:08:25 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,5 @@ void	save_map(t_game *game)
 	copy_data_into_map(game);
 	map_fixer(game);
 	check_map_symbols_validity(game);
-	printf("\n\n");
-	for (int i = 0; game->map[i] != NULL; i++)
-		printf("%s\n", game->map[i]);
-	printf("\n\n");
 	check_map_validity(game);
-	printf("\n\n");
-	for (int i = 0; game->map[i] != NULL; i++)
-		printf("%s\n", game->map[i]);
-	printf("\n\n");
-	printf("Map is valid\n");
 }

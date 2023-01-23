@@ -6,28 +6,11 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 05:58:11 by mraspors          #+#    #+#             */
-/*   Updated: 2022/12/26 05:57:50 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/01/06 02:34:29 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cube.h"
-
-void	init_struct(t_game *game)
-{
-	game->i_pars = 0;
-	game->p_x = 0;
-	game->p_y = 0;
-	game->w = 0;
-	game->h = 0;
-	game->map = NULL;
-	game->map_data = NULL;
-	game->NO_texture = NULL;
-	game->SO_texture = NULL;
-	game->WE_texture = NULL;
-	game->EA_texture = NULL;
-	game->C_color = NULL;
-	game->F_color = NULL;
-}
 
 //if its one of map symbol (1, 0, N,S,E or Wreturns 1
 int		is_map_symbol(char c)
