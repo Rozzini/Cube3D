@@ -1,0 +1,40 @@
+/**
+ ** NOTE:
+ =========
+ 1. Parsing the map must take care about the [char **raw_map] also.
+ 2. raw_map should save just the ones and zeros [1, 0].
+ 
+*/
+
+
+Parsing:
+———————
+
+1- One file contains:
+	- the texture for each wall.
+	- the color for the ceiling.
+	- the color for the floor.
+	- the map.
+
+2- 
+	# All the spaces are going to be considered as walls ( as 1)
+	# All the elements should be before the map and should be exists.
+	# The order for the elements is not important.
+	# The elements:
+        - [N] or [NO]
+        - [S] or [SO]
+        - [W] or [WE]
+        - [E] or [EA]
+        - [F]
+        - [C]
+
+# For the map:
+——————————————
+The map must be closed/surrounded by walls.  
+
+
+
+# Ray Casting:
+———————————————
+
+
