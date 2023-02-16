@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:58:49 by mraspors          #+#    #+#             */
-/*   Updated: 2023/02/13 16:58:50 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/02/16 22:36:14 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,15 @@ int	invalid_map(char **map)
 	return (1);
 }
 
-int	chek_imgs(t_data *data)
+int	chek_imgs(t_data *game)
 {
-	if (invalid_img(data->_ea) == 0)
+	if (invalid_img(game->_ea) == 0)
 		return (0);
-	if (invalid_img(data->_so) == 0)
+	if (invalid_img(game->_so) == 0)
 		return (0);
-	if (invalid_img(data->_we) == 0)
+	if (invalid_img(game->_we) == 0)
 		return (0);
-	if (invalid_img(data->_no) == 0)
+	if (invalid_img(game->_no) == 0)
 		return (0);
 	return (1);
 }

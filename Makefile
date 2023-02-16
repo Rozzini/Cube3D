@@ -3,7 +3,7 @@ NAME = cub3d
 FILES =	main.c cub.c keyevent.c utils/utils.c parsing/parse.c\
 		parsing/parse2.c parsing/parse3.c parsing/parse4.c parsing/parse5.c\
 		parsing/parse6.c utils/utils2.c utils/utils3.c utils/utils4.c utils/utils5.c\
-		utils/utlils6.c events.c read.c move_dowun.c\
+		utils/utlils6.c events.c read.c move_down.c\
 		raycast1.c raycast2.c
 
 HEADERS = ./cub3d.h\

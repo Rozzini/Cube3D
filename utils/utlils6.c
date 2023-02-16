@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:58:41 by mraspors          #+#    #+#             */
-/*   Updated: 2023/02/13 16:58:42 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/02/16 22:17:14 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	frame_counter(void *data)
 {
-	t_data	*img;
+	t_data	*game;
 
-	img = (t_data *)data;
-	img->frame++;
-	raycast(img);
+	game = (t_data *)data;
+	game->frame++;
+	raycast(game);
 	return (0);
 }
 

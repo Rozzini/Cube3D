@@ -6,24 +6,14 @@
 #    By: mraspors <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/13 22:56:17 by mraspors          #+#    #+#              #
-#    Updated: 2023/02/13 16:46:24 by mraspors         ###   ########.fr        #
+#    Updated: 2023/02/16 22:33:12 by mraspors         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = libft.a
 
-OBJS = ${SRCS:.c=.o}
-
-OBJSBONUS = ${BONUS:.c=.o}
-
-RM		= rm -f
-
-GCCF = gcc -Wall -Wextra -Werror
-
-LIB = ar -rcs
-
-SRCS =	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c\
+FILES =	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c\
 		ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c\
 		ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c\
 		ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c ft_strnstr.c\
@@ -37,18 +27,23 @@ SRCS =	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c\
 		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c\
 		ft_lstmap.c
 
-.c.o:
-		${GCCF} -c $< -o ${<:.c=.o}
+OBJECTS =	$(FILES:.c=.o)
 
-$(NAME): ${OBJS}
-		@${LIB} ${NAME} ${OBJS}
+HEADERS = libft.h 
 
-all:	${NAME}
+FLAGS = -Wall -Werror -Wextra
+
+CC = gcc -c
+
+all: $(NAME)
+
+$(NAME): $(OBJECTS)
+	ar rc libft.a $(OBJECTS)
 
 clean:
-		${RM} ${OBJS} ${OBJSBONUS}
+	/bin/rm -f $(OBJECTS)
 
-fclean:	clean
-		${RM} ${NAME}
+fclean: clean
+	/bin/rm -f  $(NAME)
 
-re:		fclean all
+re: fclean all

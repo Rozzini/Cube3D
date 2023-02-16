@@ -6,17 +6,17 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:58:24 by mraspors          #+#    #+#             */
-/*   Updated: 2023/02/13 16:58:25 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/02/16 22:19:53 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	my_mlx_pixel_put1(t_data *data, int x, int y, int color)
+void	my_mlx_pixel_put1(t_data *game, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	dst = game->addr + (y * game->line_length + x * (game->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 

@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:56:35 by mraspors          #+#    #+#             */
-/*   Updated: 2023/02/13 16:56:39 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/02/16 21:17:06 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ char	*remove_empty_lines(char *line, int fd)
 	return (line);
 }
 
-t_list	*get_lines(int fd, t_data *data)
+t_list	*get_lines(int fd, t_data *game)
 {
 	t_list	*list;
 	char	*line;
 	t_list	*el;
 
 	list = NULL;
-	line = data->first_line;
+	line = game->first_line;
 	while (line != NULL)
 	{
 		el = ft_lstnew(line);
@@ -59,7 +59,7 @@ t_list	*get_lines(int fd, t_data *data)
 	return (list);
 }
 
-void	make_map(t_list *list, t_data *data)
+void	make_map(t_list *list, t_data *game)
 {
 	char	**tmp4;
 	char	**tmp3;
@@ -67,25 +67,25 @@ void	make_map(t_list *list, t_data *data)
 	tmp4 = ft_lsttoarr(list);
 	tmp3 = ft_remove_new_line(tmp4);
 	printarr(tmp3);
-	data->map = tmp3;
+	game->map = tmp3;
 	ft_freearray((void **)tmp4);
 	ft_lstclear(&list, free);
 }
 
-void	read_map(char *str, t_data *data)
+void	read_map(char *str, t_data *game)
 {
 	int		fd;
 	char	*line;
 	char	*meta_data;
 	char	**x;
 
-	data->first_line = NULL;
+	game->first_line = NULL;
 	fd = open_file(str);
 	line = read_first_line(fd);
 	line = remove_empty_lines(line, fd);
-	meta_data = read_meta_data(fd, data);
+	meta_data = read_meta_data(fd, game);
 	x = ft_split(meta_data, '\n');
-	data->data = roted_array(x);
+	game->data = roted_array(x);
 	free(meta_data);
-	make_map(get_lines(fd, data), data);
+	make_map(get_lines(fd, game), game);
 }

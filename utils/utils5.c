@@ -6,13 +6,28 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:58:36 by mraspors          #+#    #+#             */
-/*   Updated: 2023/02/13 16:58:37 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/02/16 22:18:34 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	draw_player(t_data *data)
+void	draw_player_helper(t_data *game, int i, int j, int skip)
+{
+	game->posx = j - skip + 0.5;
+	game->posy = i + 0.5;
+	if (game->map[i][j] == 'S')
+		game->player_dir = M_PI / 2;
+	else if (game->map[i][j] == 'N')
+		game->player_dir = 3 / 2.0 * M_PI;
+	else if (game->map[i][j] == 'W')
+		game->player_dir = 2 * M_PI;
+	else if (game->map[i][j] == 'E')
+		game->player_dir = M_PI;
+	game->map[i][j] = '0';
+}
+
+void	draw_player(t_data *game)
 {
 	int	i;
 	int	j;
@@ -22,15 +37,15 @@ void	draw_player(t_data *data)
 	i = 0;
 	j = 0;
 	count = 0;
-	skip = first_space(data->map);
-	while (data->map[i])
+	skip = first_space(game->map);
+	while (game->map[i])
 	{
-		while (data->map[i][j])
+		while (game->map[i][j])
 		{
-			if (data->map[i][j] == 'N' || data->map[i][j] == 'S'
-				|| data->map[i][j] == 'E' || data->map[i][j] == 'W')
+			if (game->map[i][j] == 'N' || game->map[i][j] == 'S'
+				|| game->map[i][j] == 'E' || game->map[i][j] == 'W')
 			{
-				draw_player_helper(data, i, j, skip);
+				draw_player_helper(game, i, j, skip);
 			}
 			j++;
 		}
@@ -39,54 +54,52 @@ void	draw_player(t_data *data)
 	}
 }
 
-void	creat_imgs2(t_data *img)
+void	creat_imgs2(t_data *game)
 {
 	int	i;
 
 	i = 400;
-	img->gun1 = mlx_xpm_file_to_image(img->mlx,
+	game->gun1 = mlx_xpm_file_to_image(game->mlx,
 			"./img/gun4c.xpm", &i, &i);
-	img->gun2 = mlx_xpm_file_to_image(img->mlx,
+	game->gun2 = mlx_xpm_file_to_image(game->mlx,
 			"./img/gun4b.xpm", &i, &i);
 }
 
-//WALLS
-//processing imgs and storing in textures array for each image
-void	creat_imgs(t_data *img)
+void	creat_imgs(t_data *game)
 {
-	img->ptr[0] = mlx_xpm_file_to_image(img->mlx, img->_no,
-			&img->width[0], &img->height[0]);
-	img->texture[0] = (unsigned int (*))mlx_get_data_addr(img->ptr[0],
-			&img->bpp[0], &img->ll[0], &img->en[0]);
-	img->ptr[1] = mlx_xpm_file_to_image(img->mlx, img->_so,
-			&img->width[1], &img->height[1]);
-	img->texture[1] = (unsigned int (*))mlx_get_data_addr(img->ptr[1],
-			&img->bpp[1], &img->ll[1], &img->en[1]);
-	img->ptr[2] = mlx_xpm_file_to_image(img->mlx, img->_ea,
-			&img->width[2], &img->height[2]);
-	img->texture[2] = (unsigned int (*))mlx_get_data_addr(img->ptr[2],
-			&img->bpp[2], &img->ll[2], &img->en[2]);
-	img->ptr[3] = mlx_xpm_file_to_image(img->mlx, img->_we,
-			&img->width[3], &img->height[3]);
-	img->texture[3] = (unsigned int (*))mlx_get_data_addr(img->ptr[3],
-			&img->bpp[3],
-			&img->ll[3], &img->en[3]);
-	creat_imgs2(img);
+	game->ptr[0] = mlx_xpm_file_to_image(game->mlx, game->_no,
+			&game->width[0], &game->height[0]);
+	game->texture[0] = (unsigned int (*))mlx_get_data_addr(game->ptr[0],
+			&game->bpp[0], &game->ll[0], &game->en[0]);
+	game->ptr[1] = mlx_xpm_file_to_image(game->mlx, game->_so,
+			&game->width[1], &game->height[1]);
+	game->texture[1] = (unsigned int (*))mlx_get_data_addr(game->ptr[1],
+			&game->bpp[1], &game->ll[1], &game->en[1]);
+	game->ptr[2] = mlx_xpm_file_to_image(game->mlx, game->_ea,
+			&game->width[2], &game->height[2]);
+	game->texture[2] = (unsigned int (*))mlx_get_data_addr(game->ptr[2],
+			&game->bpp[2], &game->ll[2], &game->en[2]);
+	game->ptr[3] = mlx_xpm_file_to_image(game->mlx, game->_we,
+			&game->width[3], &game->height[3]);
+	game->texture[3] = (unsigned int (*))mlx_get_data_addr(game->ptr[3],
+			&game->bpp[3],
+			&game->ll[3], &game->en[3]);
+	creat_imgs2(game);
 }
 
-int	mouse(int x, int y, t_data *img)
+int	mouse(int x, int y, t_data *game)
 {
 	mlx_mouse_hide();
 	(void)y;
 	if (x > SCREENWIDTH / 2)
 	{
-		key_check_rotate(124, img);
+		key_check_rotate(124, game);
 	}
 	else
 	{
-		key_check_rotate(123, img);
+		key_check_rotate(123, game);
 	}
-	raycast(img);
-	mlx_mouse_move(img->win, SCREENWIDTH / 2, SCREENHEIGHT / 2);
+	raycast(game);
+	mlx_mouse_move(game->win, SCREENWIDTH / 2, SCREENHEIGHT / 2);
 	return (0);
 }

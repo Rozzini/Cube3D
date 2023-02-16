@@ -6,7 +6,7 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:57:55 by mraspors          #+#    #+#             */
-/*   Updated: 2023/02/13 16:57:57 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/02/16 21:19:45 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,6 @@ int		check_zeros(t_data *data);
 int		cheack_if_dirc(char **map);
 int		check_close_map(char **map);
 int		make_color(int t, int r, int g, int b);
-// void	my_mlx_pixel_put_alpha(t_data *data, int x, int y, int color);
 int		check_error(t_data *img);
 void	init(t_data	*img);
 void	set_pos(t_data *img);
@@ -193,7 +192,6 @@ void	check_color3(t_data *data, int *n, int *j);
 char	*ft_strcpy(char *dest, char const *src);
 void	creat_imgs(t_data *img);
 void	creat_imgs2(t_data *img);
-// void	creat_imgs3(t_data *img);
 int		mouse(int x, int y, t_data *img);
 void	draw_player_helper(t_data *data, int i, int j, int skip);
 int		frame_counter(void *data);

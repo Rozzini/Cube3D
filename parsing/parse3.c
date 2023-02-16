@@ -6,25 +6,25 @@
 /*   By: mraspors <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:58:58 by mraspors          #+#    #+#             */
-/*   Updated: 2023/02/13 16:58:59 by mraspors         ###   ########.fr       */
+/*   Updated: 2023/02/16 22:34:26 by mraspors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	check_color_range(t_data *data)
+int	check_color_range(t_data *game)
 {
-	if (data->f_color.r > 255 || data->f_color.r < 0)
+	if (game->f_color.r > 255 || game->f_color.r < 0)
 		return (0);
-	if (data->f_color.g > 255 || data->f_color.g < 0)
+	if (game->f_color.g > 255 || game->f_color.g < 0)
 		return (0);
-	if (data->f_color.b > 255 || data->f_color.b < 0)
+	if (game->f_color.b > 255 || game->f_color.b < 0)
 		return (0);
-	if (data->c_color.r > 255 || data->c_color.r < 0)
+	if (game->c_color.r > 255 || game->c_color.r < 0)
 		return (0);
-	if (data->c_color.g > 255 || data->c_color.g < 0)
+	if (game->c_color.g > 255 || game->c_color.g < 0)
 		return (0);
-	if (data->c_color.b > 255 || data->c_color.b < 0)
+	if (game->c_color.b > 255 || game->c_color.b < 0)
 		return (0);
 	return (1);
 }
@@ -40,15 +40,15 @@ int	invalid_img(char *str)
 	return (1);
 }
 
-int	exist_image(t_data *data)
+int	exist_image(t_data *game)
 {
-	if (check_img_exist(data->_ea) == 0)
+	if (check_img_exist(game->_ea) == 0)
 		return (0);
-	if (check_img_exist(data->_so) == 0)
+	if (check_img_exist(game->_so) == 0)
 		return (0);
-	if (check_img_exist(data->_we) == 0)
+	if (check_img_exist(game->_we) == 0)
 		return (0);
-	if (check_img_exist(data->_no) == 0)
+	if (check_img_exist(game->_no) == 0)
 		return (0);
 	return (1);
 }
